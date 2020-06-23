@@ -1,0 +1,31 @@
+version: '3'  # version of compose format 
+
+services:
+  laptop-service:
+    build: ./laptop  
+    volumes:
+      - ./laptop:/usr/src/app 
+    ports:
+      - 5001:80  # host:container
+    links:
+      - db
+  consumer:
+    build: ./proj5-mongo/DockerMongo
+    command: python -u ./proj5-mongo/DockerMongo/app.py
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/todo
+    links:
+      - db
+
+  website:
+    image: php:apache  
+    volumes:
+      - ./website:/var/www/html 
+    ports:
+      - 5002:80  # host:container
+    depends_on:
+      - laptop-service  # website is not going to work unless laptop-service is running
+  db:
+    image: mongo:3.0.2

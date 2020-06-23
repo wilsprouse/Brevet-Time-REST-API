@@ -1,0 +1,39 @@
+* For manual testing:
+---------------------
+- If the user, without submitting anything to the database, tries to display the saved control times
+  it will render a template telling them to enter control times first.
+
+- In a similar fashion, if the user tries submit anything to the database, without typing anything in 
+  it will render a template telling them to enter control times and submit them. This includes the case
+  in which the user enters control times, does not submit them, hits the display button and then goes
+  back to the ACP brevet page. In that case, the open and close times are no longer in the web page,
+  so the template is rendered.
+
+- If a user enters any amount of control times, and they then hit submit the open and close times calculated
+  from acp_brevet.py will be saved and the calc.html page will be rendered for the user to start fresh.
+
+- Hitting submit after the open and close times are filled will store the times in a the MongoDB database.
+
+- If there are times that are stored in the database, and the user hits the display button, it will 
+  render a new template that has all the times listed
+
+* Specific Tests:
+-----------------
+-If the user enters 20, and 30 miles and submits them. If they then hit display the page will show:
+  Open Time: Sun 1/1 0:57 | Close Time: Sun 1/1 2:09
+
+  Open Time: Sun 1/1 1:25 | Close Time: Sun 1/1 3:13
+
+- If the user types 20 and 30, and hits display without submitting the 20 and 30, then goes back to the 
+  main page and tries to hit submit they will see:
+
+  You have no entries entered!
+  Enter control points to store them
+
+- If there is nothing saved in th database and the user hits display, they will see:
+
+  You have no entries entered!
+  Enter control points to store them 
+
+- If the user types any amount of miles, and hits submit, they will be stored in the database,
+  and calc.html will be rendered

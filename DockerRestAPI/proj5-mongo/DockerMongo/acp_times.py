@@ -4,16 +4,7 @@ for ACP-sanctioned brevets
 following rules described at https://rusa.org/octime_alg.html
 and https://rusa.org/pages/rulesForRiders
 """
-#import arrow
 
-#  Note for CIS 322 Fall 2016:
-#  You MUST provide the following two functions
-#  with these signatures, so that I can write
-#  automated tests for grading.  You must keep
-#  these signatures even if you don't use all the
-#  same arguments.  Arguments are explained in the
-#  javadoc comments.
-#
 
 
 def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
@@ -30,9 +21,6 @@ def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
        This will be in the same time zone as the brevet start time.
     """
     table = [(0,0), (200,34), (400,32), (600,30), (1000,28)]
-    #brevetsTime = brevet_start_time
-    #times = brevetsTime.split(' ')[1]
-    #dates = brevetsTime.split(' ')[0]
     if control_dist_km > table[4][0]:
         control_dist_km = table[4][0]
     if control_dist_km > brevet_dist_km:
@@ -50,7 +38,6 @@ def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
                 time = ((control_dist_km-(table[i][0]))/table[i+1][1]) 
             else:
                 time = (200/table[i+1][1])
-            print(time)
             controlHours = int(time)
             controlMinutes = round((time - controlHours)*60)
 
@@ -80,7 +67,6 @@ def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
             brevet_start_time = day + ' ' + (totalHours+':'+totalMinutes)   
             if control_dist_km > table[i][0] and control_dist_km < table[i+1][0]:
                 break
-    print(day + ' ' + brevet_start_time)
     return brevet_start_time 
 
 
@@ -99,10 +85,6 @@ def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
        This will be in the same time zone as the brevet start time.
     """
     table = [(0,0), (200,15), (400,15), (600,15), (1000,11.428)]
-    #brevetsTime = brevet_start_time
-    #times = brevetsTime.split(' ')[1]
-    #dates = brevetsTime.split(' ')[0]
-    #return brevet_start_time
     if control_dist_km > table[4][0]:
         control_dist_km = table[4][0]
     if control_dist_km > brevet_dist_km:
@@ -120,7 +102,6 @@ def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
                 time = ((control_dist_km-(table[i][0]))/table[i+1][1]) 
             else:
                 time = (200/table[i+1][1])
-            #print(time)
             controlHours = int(time)
             controlMinutes = round((time - controlHours)*60)
 
@@ -150,6 +131,4 @@ def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
             brevet_start_time = day + ' ' + (totalHours+':'+totalMinutes)   
             if control_dist_km > table[i][0] and control_dist_km < table[i+1][0]:
                 break
-    print(day + ' ' + brevet_start_time)
     return brevet_start_time 
-    #return arrow.now().isoformat()

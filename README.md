@@ -41,7 +41,7 @@ URLS:
 * "http://<host:5001>/listCloseOnly/csv?top=k" returns top k close times only (in ascending order) in CSV format
 * "http://<host:5001>/listCloseOnly/json?top=k" returns top k close times only (in ascending order) in JSON format
 
-The docker-compose is within proj6-rest/DockerRestAPI, and it creates three four containers, one for the ACP Brevet
+The docker-compose is within proj6-rest/DockerRestAPI, and it creates four containers, one for the ACP Brevet
 Time Calculator, one for the website service which is the user interface, one for the laptop service (The url exposing service)
 and one to create the mongodb image to store data.
 

@@ -24,7 +24,7 @@ services:
     volumes:
       - ./website:/var/www/html 
     ports:
-      - 5002:80  # host:container
+      - 5002:80
     depends_on:
       - laptop-service  # website is not going to work unless laptop-service is running
   db:

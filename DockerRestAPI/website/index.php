@@ -4,14 +4,6 @@
     </head>
     <body>
         <ul>
-            <?php
-            //$json = file_get_contents('http://laptop-service/');
-            //$obj = json_decode($json);
-	    //      $laptops = $obj->Laptops;
-            //foreach ($laptops as $l) {
-            // echo "<li>$l</li>";
-            //}
-            ?>
         </ul>
 	<h1>Click to see Times!</h1>
 		<form method="post">

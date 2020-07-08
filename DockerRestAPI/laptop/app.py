@@ -1,5 +1,3 @@
-# Laptop Service
-
 import os
 from flask import Flask, request
 from flask_restful import Resource, Api
@@ -13,15 +11,11 @@ import pandas
 app = Flask(__name__)
 api = Api(app)
 
-#client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
-client = MongoClient("172.19.0.2", 27017)
+client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017) # If this line returns a KeyError, run docker inspect <mongo-container-id>,
+                                                                  # then find the ip address within the json that is returned, and use that.
+                                                                  # The next line is an example of this.
+#client = MongoClient('IP-address-that-was-found-in-json', 27017)
 db = client.tododb
-col = db.tododb
-
-#enterThis = { 'Tips':['The','Juice','also juiced'] }
-#enterThis2 = { 'TipsTops':['The','Juice','also juiced'] }
-#db.tododb.insert_one(enterThis)
-#db.tododb.insert_one(enterThis2)
 
 def myClose(e):
     return e['close']
@@ -33,10 +27,7 @@ def myOpen(e):
 class Instructions(Resource):
     def get(self):
         return {
-            'Laptops': ['Mac OS', 'Dell', 
-            'Windozzee',
-	    'Yet another laptop!',
-	    'Yet yet another laptop!'
+            'User Instructions': ['See, README' 
             ]
         }
 
@@ -192,9 +183,7 @@ class CloseTimesCSV(Resource):
 
 
 
-# Create routes
-# Another way, without decorators
-#api.add_resource(Laptops, '/')
+# Create the routes
 api.add_resource(Instructions, '/')
 api.add_resource(AllTimes, '/listAll')
 api.add_resource(OpenTimes, '/listOpenOnly')

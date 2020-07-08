@@ -6,11 +6,12 @@ import acp_times
 #import arrow
 
 app = Flask(__name__)
-#CONFIG = config.configuration()
-#app.secret_key = CONFIG.SECRET_KEY
 
-client = MongoClient("172.19.0.2", 27017) #os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
-#client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
+client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017) # If this line returns a KeyError, run docker inspect <mongo-container-id>,
+                                                                  # then find the ip address within the json that is returned, and use that.
+                                                                  # The next line is an example of this.
+#client = MongoClient('IP-address-that-was-found-in-json', 27017)
+
 db = client.tododb
 
 @app.route('/')
@@ -31,18 +32,6 @@ def todo():
     else:
         return render_template('noEntries.html')
 
-#@app.route("/")
-#@app.route("/index")
-#def index():
-#    app.logger.debug("Main page entry")
-#    return flask.render_template('todo.html')
-
-#@app.errorhandler(404)
-#def page_not_found(error):
-#    app.logger.debug("Page not found")
-#    flask.session['linkback'] = flask.url_for("index")
-#    return flask.render_template('404.html'), 404
-
 @app.route("/_calc_times")
 def _calc_times():
     """
@@ -59,35 +48,22 @@ def _calc_times():
     app.logger.debug("beginTime={}".format(beginTime))
     app.logger.debug("km={}".format(km))
     app.logger.debug("request.args: {}".format(request.args))
-    # FIXME: These probably aren't the right open and close times
-    # and brevets may be longer than 200km
     open_time = acp_times.open_time(km, brevet_distance, beginning)
     close_time = acp_times.close_time(km, brevet_distance, beginning)
     rslt = {"open": open_time, "close": close_time}
-    #item_doc = {
-    #    'open': open_time, #request.form['open'],
-    #    'close': close_time #request.form['close']
-    #}
-    #app.logger.debug(open_time) #request.form['open'])
-    #app.logger.debug(close_time) #request.form['close'])
-    #db.tododb.insert_one(item_doc)
+
     return flask.jsonify(result=rslt)
 
 @app.route('/submit', methods=['POST'])
 def new():
-    #app.logger.debug("request.form: "+str(request.form))
-    #app.logger.debug(request.form)
     openTimes = []
     closeTimes = []
     for i in request.form.getlist("open"):
-        #app.logger.debug(i)
         if i != "":
             openTimes.append(i)
-            #app.logger.debug(i)
     for i in request.form.getlist("close"):
         if i != "":
             closeTimes.append(i)
-            #app.loo gger.debug(i)
     if (len(openTimes)==0):
         return render_template('emptyEntries.html')
     for i in range(len(openTimes)):
@@ -95,13 +71,11 @@ def new():
             'open': openTimes[i],
         }
         item_close = {'close': closeTimes[i]}
-        #app.logger.debug("Value openTimes: "+openTimes[i]+"Value closeTimes: "+closeTimes[i])
-        #app.logger.debug(item_doc)
         db.tododb.insert_one(item_close)
         db.tododb.insert_one(item_open)
 
 
-    return render_template('calc.html') #redirect(url_for('calc'))
+    return render_template('calc.html')
 
 
 if __name__ == "__main__":

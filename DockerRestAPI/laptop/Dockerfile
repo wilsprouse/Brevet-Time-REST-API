@@ -4,9 +4,4 @@ FROM python:3-onbuild
 # python:3-onbuild expects the source in /usr/src/app
 RUN pip install -r requirements.txt
 COPY . /usr/src/app
-
-#RUN pip install -r requirements.txt
-
-
-# Commands in a list
-CMD ["python", "api.py"]
+CMD ["python", "app.py"]
